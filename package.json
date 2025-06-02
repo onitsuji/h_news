@@ -8,7 +8,8 @@
   "dependencies": {
     "drizzle-orm": "^0.44.1",
     "hono": "^4.7.11",
-    "postgres": "^3.4.7"
+    "postgres": "^3.4.7",
+    "zod": "^3.25.48"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.9",
