@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=h_newsdb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - h_news-network
+    ports:
+      - "5432:5432"
+
+networks:
+  h_news-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
