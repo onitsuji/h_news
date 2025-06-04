@@ -1,10 +1,33 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 
-const app = new Hono();
+import type { Context } from "./context";
+import { createSession, validateSessionToken } from "./lib/session";
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+const app = new Hono<Context>();
+
+app.use("*", cors(), async (c, next) => {
+  const sessionId = await validateSessionToken(c.req.header("Cookie") ?? "");
+
+  if (!sessionId) {
+    c.set("user", null);
+    c.set("session", null);
+    c.header("Set-Cookie", "session=");
+    return next();
+  }
+
+  const { user, session } = sessionId;
+
+  if (session && session.expiresAt < new Date()) {
+    c.header("Set-Cookie", "session=");
+  } else {
+    c.header("Set-Cookie", `session=${session?.id}`);
+  }
+
+  c.set("session", session);
+  c.set("user", user);
+  return next();
 });
 
 app.onError((err, c) => {
