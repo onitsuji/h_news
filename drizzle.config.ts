@@ -7,6 +7,6 @@ export default defineConfig({
   schema: "server/db/schemas/*",
   // Credentials to access db
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL!,
   },
 });

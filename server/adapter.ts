@@ -12,5 +12,3 @@ const processEnv = EnvSchema.parse(process.env);
 
 const queryClient = postgres(processEnv.DATABASE_URL);
 const db = drizzle(queryClient);
-const result = await db.execute("select 1");
-console.log(result);
